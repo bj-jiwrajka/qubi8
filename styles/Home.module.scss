@@ -1,13 +1,13 @@
 // Home.module.scss
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 .container {
   --text-color: #1f2937;
   --border-radius: 8px;
   background-color: #f1f5f9;
   color: var(--text-color);
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .header {
@@ -69,6 +69,47 @@
 
     .searchGroup {
       margin-bottom: 1.5rem;
+
+      .customDropdown {
+        position: relative;
+        width: 100%;
+      }
+
+      .dropdownInput {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 0.3rem;
+        box-sizing: border-box;
+        cursor: pointer;
+      }
+
+      .dropdownOptions {
+        position: absolute;
+        width: 100%;
+        max-height: 20rem;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: white;
+        z-index: 1000;
+        box-sizing: border-box;
+      }
+
+      .dropdownOption {
+        padding: 0.5rem;
+        cursor: pointer;
+      }
+
+      .dropdownOption:hover {
+        background-color: #f0f0f0;
+      }
+
+      .noOptions {
+        padding: 0.5rem;
+        color: #999;
+        text-align: center;
+      }
 
       .label {
         font-weight: 600;
@@ -140,5 +181,4 @@
       font-size: 1.5rem;
     }
   }
-
 }

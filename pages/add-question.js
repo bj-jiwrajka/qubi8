@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import companiesData from "@/data/companies.json";
 import styles from "../styles/AddQuestion.module.scss";
 import { toast } from "react-toastify";
@@ -9,7 +9,10 @@ export default function AddQuestion() {
   const [topic, setTopic] = useState("Others");
   const [question, setQuestion] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  const dropdownRef = useRef(null);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -41,6 +44,30 @@ export default function AddQuestion() {
       setIsSubmitting(false);
     }
   };
+  const handleDropdownClick = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleOptionClick = (companyName) => {
+    setCompany(companyName);
+    setSearchTerm(companyName);
+    setIsDropdownOpen(false);
+  };
+  const filteredCompanies = companiesData
+    .sort()
+    .filter((comp) => comp.toLowerCase().startsWith(searchTerm.toLowerCase()));
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -48,17 +75,33 @@ export default function AddQuestion() {
       <form onSubmit={handleSubmit}>
         <div className={styles.formGroup}>
           <label className={styles.label}>Company Name:</label>
-          <select
-            className={styles.input}
-            value={company}
-            onChange={(e) => setCompany(e.target.value)}
-          >
-            {companiesData.sort().map((comp, index) => (
-              <option key={index} value={comp}>
-                {comp}
-              </option>
-            ))}
-          </select>
+          <div className={styles.customDropdown} ref={dropdownRef}>
+            <input
+              type="text"
+              className={styles.dropdownInput}
+              placeholder="Search for a company"
+              value={searchTerm}
+              onClick={handleDropdownClick}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            {isDropdownOpen && (
+              <div className={styles.dropdownOptions}>
+                {filteredCompanies.length > 0 ? (
+                  filteredCompanies.map((comp, index) => (
+                    <div
+                      key={index}
+                      className={styles.dropdownOption}
+                      onClick={() => handleOptionClick(comp)}
+                    >
+                      {comp}
+                    </div>
+                  ))
+                ) : (
+                  <div className={styles.noOptions}>No options available</div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
         <div className={styles.formGroup}>
           <label className={styles.label}>Topic:</label>
