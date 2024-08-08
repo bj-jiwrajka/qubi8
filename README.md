@@ -1,11 +1,11 @@
-# Next-JS-App Template v1.0.0
-GDSC NIT Silchar's Template for a NextJS + SASS app.
+# QubIT: Interview Question Portal
 
-## Features, Tools and Technologies
-- JavaScript
-- NextJS 13
-- pages router
-- SASS Modules
-- pnpm
-- Prettier
-- Auto Lint and Pretty on commit using simple-git-hooks (compatible with Windows unlike husky)
+## Overview
+
+QubIT is a web application designed to help users add and view interview questions for various tech companies. It allows users to submit new interview questions and browse through existing ones based on company and topic.
+
+## Features
+
+- **Add Questions**: Users can add new interview questions to the portal.
+- **View Questions**: Users can view questions filtered by company and topic.
+- **Search**: Filter questions by company and topic, with options to view all companies or all topics.
