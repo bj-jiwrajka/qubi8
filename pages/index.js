@@ -1,54 +1,58 @@
-import { useState, useEffect } from 'react';
-import Head from 'next/head';
-import Link from 'next/link';
-import { Poppins } from 'next/font/google';
-import styles from '@/styles/Home.module.scss';
-import { FaPlus } from 'react-icons/fa';
-import companiesData from '@/data/companies.json';
+import { useState, useEffect } from "react";
+import Head from "next/head";
+import Link from "next/link";
+import { Poppins } from "next/font/google";
+import styles from "@/styles/Home.module.scss";
+import { FaPlus } from "react-icons/fa";
+import companiesData from "@/data/companies.json";
 
 const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 export default function Home() {
-  const [company, setCompany] = useState('All Companies');
-  const [topic, setTopic] = useState('All');
+  const [company, setCompany] = useState("All Companies");
+  const [topic, setTopic] = useState("All");
   const [questions, setQuestions] = useState([]);
 
   const handleSearch = async () => {
     try {
-      // Build query string based on selections
       const query = [];
-      if (company !== 'All Companies') {
+      if (company !== "All Companies") {
         query.push(`company=${encodeURIComponent(company)}`);
       }
-      if (topic !== 'All') {
+      if (topic !== "All") {
         query.push(`topic=${encodeURIComponent(topic)}`);
       }
 
-      const response = await fetch(`/api/get-questions?${query.join('&')}`);
+      const response = await fetch(`/api/get-questions?${query.join("&")}`);
       const data = await response.json();
       if (response.ok) {
         setQuestions(data);
       } else {
-        console.error('Failed to fetch questions:', data);
+        console.error("Failed to fetch questions:", data);
       }
     } catch (error) {
-      console.error('An error occurred:', error);
+      console.error("An error occurred:", error);
     }
   };
 
   return (
     <div className={poppins.className}>
       <Head>
-        <title>QubIT</title>
-        <meta name="description" content="A portal for adding and viewing interview questions" />
+        <title>QubI8</title>
+        <meta
+          name="description"
+          content="A portal for adding and viewing interview questions"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <header className={styles.header}>
-        <h1 className={styles.title}>QubIT: Your Go-To Hub for Interview Questions</h1>
+        <h1 className={styles.title}>
+          QubI8: Your Go-To Hub for Interview Questions
+        </h1>
       </header>
 
       <main className={styles.main}>
@@ -71,7 +75,9 @@ export default function Home() {
             >
               <option value="All Companies">All Companies</option>
               {companiesData.map((comp, index) => (
-                <option key={index} value={comp}>{comp}</option>
+                <option key={index} value={comp}>
+                  {comp}
+                </option>
               ))}
             </select>
           </div>
@@ -94,7 +100,9 @@ export default function Home() {
             </select>
           </div>
 
-          <button className={styles.button} onClick={handleSearch}>Search</button>
+          <button className={styles.button} onClick={handleSearch}>
+            Search
+          </button>
 
           <div className={styles.questionList}>
             {questions.length > 0 ? (

@@ -1,37 +1,44 @@
-import { useState } from 'react';
-import companiesData from '@/data/companies.json';
-import styles from '../styles/AddQuestion.module.scss';
+import { useState } from "react";
+import companiesData from "@/data/companies.json";
+import styles from "../styles/AddQuestion.module.scss";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function AddQuestion() {
-  const [company, setCompany] = useState('');
-  const [topic, setTopic] = useState('Others');
-  const [question, setQuestion] = useState('');
+  const [company, setCompany] = useState("");
+  const [topic, setTopic] = useState("Others");
+  const [question, setQuestion] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/add-question', {
-        method: 'POST',
+      const response = await fetch("/api/add-question", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ company, topic, question }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('API Error:', errorData.message);
+        toast.error(errorData.message);
+        setIsSubmitting(false);
         return;
       }
 
       const data = await response.json();
-      console.log('Success:', data.message);
-      setCompany('');
-      setTopic('OS');
-      setQuestion('');
+      toast.success("Question successfully added!");
+      setCompany("");
+      setTopic("Others");
+      setQuestion("");
     } catch (error) {
-      console.error('Error:', error);
+      toast.error("Error:", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -46,8 +53,10 @@ export default function AddQuestion() {
             value={company}
             onChange={(e) => setCompany(e.target.value)}
           >
-            {companiesData.map((comp, index) => (
-              <option key={index} value={comp}>{comp}</option>
+            {companiesData.sort().map((comp, index) => (
+              <option key={index} value={comp}>
+                {comp}
+              </option>
             ))}
           </select>
         </div>
@@ -75,7 +84,9 @@ export default function AddQuestion() {
             onChange={(e) => setQuestion(e.target.value)}
           />
         </div>
-        <button className={styles.button} type="submit">Submit</button>
+        <button className={styles.button} type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Submitting..." : "Submit"}
+        </button>
       </form>
     </div>
   );

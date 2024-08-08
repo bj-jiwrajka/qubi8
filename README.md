@@ -2,7 +2,7 @@
 
 ## Overview
 
-QubIT is a web application designed to help users add and view interview questions for various tech companies. It allows users to submit new interview questions and browse through existing ones based on company and topic.
+QubI8 is a web application designed to help users add and view interview questions for various tech companies. It allows users to submit new interview questions and browse through existing ones based on company and topic.
 
 ## Features
 
