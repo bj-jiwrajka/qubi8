@@ -9,7 +9,9 @@
     "lint": "next lint",
     "pretty": "prettier --write .",
     "precommit": "lint-staged",
-    "prepare": "simple-git-hooks"
+    "prepare": "simple-git-hooks",
+    "prisma:generate": "prisma generate",
+    "prebuild": "npm run prisma:generate"
   },
   "dependencies": {
     "@prisma/client": "^5.18.0",
